@@ -5,6 +5,7 @@ package com.flatironschool.javacs;
 
 import java.util.List;
 import java.util.Map;
+import java.util.*;
 
 /**
  * Implementation of a HashMap using a collection of MyLinearMap and
@@ -41,7 +42,28 @@ public class MyHashMap<K, V> extends MyBetterMap<K, V> implements Map<K, V> {
 	 */
 	protected void rehash() {
         // TODO: fill this in.
-        throw new UnsupportedOperationException();
+
+
+		// list of entries
+		List<Entry> oldEntries = new ArrayList<Entry>();
+
+		// fill in list with all entries
+		for(MyLinearMap map: maps) {
+			Object[] entries = map.getEntries().toArray();
+			for(Object entry: entries) {
+				oldEntries.add((Entry)entry);
+			}
+		}
+
+		// resize table
+		int newSize = maps.size() * 2;
+		makeMaps(newSize);
+
+		// put entries back in
+		for (Entry entry: oldEntries) {
+			this.put((K)(entry.getKey()), (V)(entry.getValue()));
+		}
+
 	}
 
 	/**
